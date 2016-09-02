@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
@@ -59,8 +58,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // Setup the default SignalR options
             services.TryAddTransient<IConfigureOptions<SignalROptions>, SignalROptionsSetup>();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             if (configureOptions != null)
             {

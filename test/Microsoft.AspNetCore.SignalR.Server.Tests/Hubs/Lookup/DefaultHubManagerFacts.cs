@@ -152,7 +152,7 @@ namespace Microsoft.AspNetCore.SignalR.Tests
         {
             var sp = ServiceProviderHelper.CreateServiceProvider();
             var hubManager = ActivatorUtilities.CreateInstance<DefaultHubManager>(sp);
-            var hubDescriptor = hubManager.ResolveHub("CoreTestHub");
+            var hubDescriptor = hubManager.ResolveHub("CoreTestHub", sp);
 
             Assert.NotNull(hubDescriptor);
         }
@@ -162,7 +162,7 @@ namespace Microsoft.AspNetCore.SignalR.Tests
         {
             var sp = ServiceProviderHelper.CreateServiceProvider();
             var hubManager = ActivatorUtilities.CreateInstance<DefaultHubManager>(sp);
-            var hubDescriptor = hubManager.ResolveHub("____CoreTestHub____");
+            var hubDescriptor = hubManager.ResolveHub("____CoreTestHub____", sp);
 
             Assert.Null(hubDescriptor);
         }
@@ -172,7 +172,7 @@ namespace Microsoft.AspNetCore.SignalR.Tests
         {
             var sp = ServiceProviderHelper.CreateServiceProvider();
             var hubManager = ActivatorUtilities.CreateInstance<DefaultHubManager>(sp);
-            var hubDescriptor = hubManager.ResolveHubs();
+            var hubDescriptor = hubManager.ResolveHubs(sp);
 
             Assert.NotNull(hubDescriptor);
             Assert.NotEmpty(hubDescriptor);

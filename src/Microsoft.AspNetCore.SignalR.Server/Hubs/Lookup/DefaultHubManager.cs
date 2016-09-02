@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.SignalR.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.SignalR.Hubs
 {
@@ -87,15 +85,15 @@ namespace Microsoft.AspNetCore.SignalR.Hubs
 
         }
 
-        public IHub ResolveHub(string hubName)
+        public IHub ResolveHub(string hubName, IServiceProvider serviceProvider)
         {
             HubDescriptor hub = GetHub(hubName);
-            return hub == null ? null : _activator.Create(hub);
+            return hub == null ? null : _activator.Create(hub, serviceProvider);
         }
 
-        public IEnumerable<IHub> ResolveHubs()
+        public IEnumerable<IHub> ResolveHubs(IServiceProvider serviceProvider)
         {
-            return GetHubs(predicate: null).Select(hub => _activator.Create(hub));
+            return GetHubs(predicate: null).Select(hub => _activator.Create(hub, serviceProvider));
         }
     }
 }

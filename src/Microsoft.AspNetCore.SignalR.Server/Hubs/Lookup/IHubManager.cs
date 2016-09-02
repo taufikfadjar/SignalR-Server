@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.SignalR.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.SignalR.Hubs
 {
@@ -32,13 +31,13 @@ namespace Microsoft.AspNetCore.SignalR.Hubs
         /// </summary>
         /// <param name="hubName">Name of the hub.</param>
         /// <returns>Hub implementation instance, if found. Null otherwise.</returns>
-        IHub ResolveHub(string hubName);
+        IHub ResolveHub(string hubName, IServiceProvider serviceProvider);
 
         /// <summary>
         /// Resolves all available hubs to their concrete objects.
         /// </summary>
         /// <returns>List of hub instances.</returns>
-        IEnumerable<IHub> ResolveHubs();
+        IEnumerable<IHub> ResolveHubs(IServiceProvider serviceProvider);
 
         /// <summary>
         /// Retrieves a method with a given name on a given hub.

@@ -3,7 +3,6 @@
 
 
 using System;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.SignalR.Hubs
@@ -11,15 +10,13 @@ namespace Microsoft.AspNetCore.SignalR.Hubs
     public class DefaultHubActivator : IHubActivator
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DefaultHubActivator(IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor)
+        public DefaultHubActivator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IHub Create(HubDescriptor descriptor)
+        public IHub Create(HubDescriptor descriptor, IServiceProvider serviceProvider)
         {
             if (descriptor == null)
             {
@@ -31,8 +28,7 @@ namespace Microsoft.AspNetCore.SignalR.Hubs
                 return null;
             }
 
-            IServiceProvider provider = _httpContextAccessor.HttpContext?.RequestServices ?? _serviceProvider;
-            return ActivatorUtilities.CreateInstance(provider, descriptor.HubType) as IHub;
+            return ActivatorUtilities.CreateInstance(serviceProvider, descriptor.HubType) as IHub;
         }
     }
 }

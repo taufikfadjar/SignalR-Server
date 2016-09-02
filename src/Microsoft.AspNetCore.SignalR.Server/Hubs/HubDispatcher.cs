@@ -452,7 +452,7 @@ namespace Microsoft.AspNetCore.SignalR.Hubs
         {
             try
             {
-                var hub = _manager.ResolveHub(descriptor.Name);
+                var hub = _manager.ResolveHub(descriptor.Name, request.HttpContext.RequestServices);
 
                 if (hub != null)
                 {

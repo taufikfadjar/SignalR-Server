@@ -31,21 +31,25 @@ namespace Microsoft.AspNetCore.SignalR.Transports
         private readonly Action<Exception> _error;
         private readonly IPerformanceCounterManager _counters;
 
+        private readonly IServiceScopeFactory _scopeFactory;
+
         private static byte[] _keepAlive = Encoding.UTF8.GetBytes("{}");
 
         public WebSocketTransport(HttpContext context,
                                   JsonSerializer serializer,
+                                  IServiceScopeFactory scopeFactory,
                                   ITransportHeartbeat heartbeat,
                                   IPerformanceCounterManager performanceCounterManager,
                                   IApplicationLifetime applicationLifetime,
                                   ILoggerFactory loggerFactory,
                                   IMemoryPool pool)
-            : this(context, serializer, heartbeat, performanceCounterManager, applicationLifetime, loggerFactory, pool, maxIncomingMessageSize: null)
+            : this(context, serializer, scopeFactory, heartbeat, performanceCounterManager, applicationLifetime, loggerFactory, pool, maxIncomingMessageSize: null)
         {
         }
 
         public WebSocketTransport(HttpContext context,
                                   JsonSerializer serializer,
+                                  IServiceScopeFactory scopeFactory,
                                   ITransportHeartbeat heartbeat,
                                   IPerformanceCounterManager performanceCounterManager,
                                   IApplicationLifetime applicationLifetime,
@@ -56,6 +60,8 @@ namespace Microsoft.AspNetCore.SignalR.Transports
         {
             _context = context;
             _maxIncomingMessageSize = maxIncomingMessageSize;
+
+            _scopeFactory = scopeFactory;
 
             _message = OnMessage;
             _closed = OnClosed;
@@ -194,7 +200,7 @@ namespace Microsoft.AspNetCore.SignalR.Transports
         {
             if (Received != null)
             {
-                using (var scope = _context.RequestServices.GetService<IServiceScopeFactory>().CreateScope())
+                using (var scope = _scopeFactory.CreateScope())
                 {
                     var originalServices = _context.RequestServices;
                     _context.RequestServices = scope.ServiceProvider;
