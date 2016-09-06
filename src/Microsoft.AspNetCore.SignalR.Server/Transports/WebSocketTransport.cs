@@ -205,9 +205,14 @@ namespace Microsoft.AspNetCore.SignalR.Transports
                     var originalServices = _context.RequestServices;
                     _context.RequestServices = scope.ServiceProvider;
 
-                    Received(message).Catch(Logger);
-
-                    _context.RequestServices = originalServices;
+                    try
+                    {
+                        Received(message).Catch(Logger);
+                    }
+                    finally
+                    {
+                        _context.RequestServices = originalServices;
+                    }
                 }
             }
         }
