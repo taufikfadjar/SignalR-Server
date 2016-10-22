@@ -4,6 +4,7 @@
   "dependencies": {},
   "frameworks": {
     "net451": {},
+    "net452": {},
     "netstandard1.3": {
       "dependencies": {
         "System.Runtime": "4.1.0-*"

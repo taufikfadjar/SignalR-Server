@@ -857,7 +857,7 @@ namespace Microsoft.AspNetCore.SignalR
             return tcs.Task;
         }
 
-#if NET451
+#if NET451 || NET452
         internal struct CulturePair
         {
             public CultureInfo Culture;

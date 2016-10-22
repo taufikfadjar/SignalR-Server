@@ -26,6 +26,13 @@
         }
       }
     },
+    "net452": {
+      "frameworkAssemblies": {
+        "System.Runtime": {
+          "type": "build"
+        }
+      }
+    },
     "netstandard1.3": {
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-*",
